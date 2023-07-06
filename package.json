@@ -1,0 +1,28 @@
+{
+  "name": "social-connect-api",
+  "version": "1.0.0",
+  "description": "This repository houses the challenge to build an efficient and robust API for a social network application. The API is designed to enable sharing thoughts, reacting to posts, and managing friend lists. ",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthew-millard/social-connect-api.git"
+  },
+  "author": "Matthew Millard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matthew-millard/social-connect-api/issues"
+  },
+  "homepage": "https://github.com/matthew-millard/social-connect-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.9"
+  }
+}
