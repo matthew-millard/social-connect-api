@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
+import reactionSchema from './Reaction.js';
 import formatDate from '../utils/format-date.js';
 
 // Define Thought schema
@@ -17,12 +18,7 @@ const thoughtSchema = Schema({
     type: String,
     required: true,
   },
-  reactions: [
-    {
-      ref: 'Reaction',
-      type: Schema.Types.ObjectId,
-    },
-  ],
+  reactions: [reactionSchema],
 });
 
 // Format the timestamp on query
