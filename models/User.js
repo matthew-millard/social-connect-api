@@ -1,5 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 import validateEmail from '../utils/validate-email.js';
+import Thought from './Thought.js';
 
 // Define User Schema
 const userSchema = new Schema({
@@ -27,6 +28,12 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
     },
   ],
+});
+
+// Pre middleware function to remove user's thoughts when user is deleted
+userSchema.pre('deleteOne', async function (next) {
+  await Thought.deleteMany({ username: this.username });
+  next();
 });
 
 // Define friendCount Virtual
