@@ -1,5 +1,5 @@
 import models from '../models/index.js';
-const { Thought, User } = models;
+const { Thought, User, Reaction } = models;
 
 // GET all thoughts
 export async function getThoughts(req, res) {
@@ -102,6 +102,55 @@ export async function deleteThought(req, res) {
     }
 
     return res.status(200).json({ message: 'Thought has been successfully deleted.' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+}
+
+// CREATE a reaction
+export async function createReaction(req, res) {
+  try {
+    const thoughtId = req.params.thoughtId;
+
+    // Update the thought by adding a new reaction
+    const updatedThought = await Thought.findByIdAndUpdate(
+      thoughtId,
+      { $push: { reactions: req.body } },
+      { runValidators: true, new: true }
+    );
+
+    if (!updatedThought) {
+      return res.status(404).json({ message: 'No thought found with that id.' });
+    }
+
+    return res
+      .status(200)
+      .json({ message: 'New reaction was successfully added to the thought.', thought: updatedThought });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+}
+
+// DELETE reaction by reactionId
+export async function deleteReaction(req, res) {
+  try {
+    const thoughtId = req.params.thoughtId;
+    const reactionId = req.params.reactionId;
+
+    // Find the thought and pull the reaction from its array of reactions
+    const updatedThought = await Thought.findByIdAndUpdate(
+      thoughtId,
+      { $pull: { reactions: { reactionId } } },
+      { new: true }
+    );
+
+    if (!updatedThought) {
+      return res.status(404).json({ message: 'No thought found with this id' });
+    }
+
+    return res.status(200).json({ message: 'Reaction successfully deleted' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server error' });
